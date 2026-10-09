@@ -198,6 +198,40 @@
         el("small", { text: v.source })
       ]));
     });
+    var tg = inc.target;
+    if (tg) {
+      var tgStatus = tg.status === "official" ? "公式発表" : "公式発表で未確認";
+      var tgBody = [el("div", { class: "cause-head" }, [
+        el("h4", { text: "攻撃対象（プラットフォーム・機器）" }),
+        el("span", { class: "cause-status " + (tg.status === "official" ? "official" : "undisclosed"), text: tgStatus })
+      ])];
+      if (tg.items && tg.items.length) {
+        tgBody.push(el("ul", { class: "target-items" }, tg.items.map(function (t) { return el("li", { text: t }); })));
+      } else {
+        tgBody.push(el("p", { class: "cause-text", text: "情報なし" }));
+      }
+      tgBody.push(el("p", { class: "target-product" }, [el("span", { class: "target-label", text: "製品名・バージョン" }), tg.product]));
+      (tg.extra || []).forEach(function (x) {
+        tgBody.push(el("p", { class: "target-extra" }, [
+          el("span", { class: "target-label", text: x.label }),
+          x.text,
+          el("small", {}, [x.url ? el("a", { href: x.url, text: "出典：" + x.source }) : "出典：" + x.source])
+        ]));
+      });
+      tgBody.push(el("p", { class: "cause-source", text: "出典：" + tg.source }));
+      if (tg.reference) {
+        if (tg.reference.source === "—") {
+          tgBody.push(el("p", { class: "cause-note", text: "参考（第三者記事）：" + tg.reference.text }));
+        } else {
+          tgBody.push(el("div", { class: "cause-ref" }, [
+            el("span", { class: "cause-ref-label", text: "参考（第三者記事。公式発表ではありません）" }),
+            el("p", { text: tg.reference.text }),
+            el("p", { class: "cause-source", text: "出典：" + tg.reference.source })
+          ]));
+        }
+      }
+      children.push(el("div", { class: "target-block" }, tgBody));
+    }
     var pv = inc.prevention;
     var pvBody = pv
       ? [el("ul", {}, pv.items.map(function (t) { return el("li", { text: t }); })),

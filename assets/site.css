@@ -304,6 +304,12 @@ table.data td.num { text-align: right; font-variant-numeric: tabular-nums; white
 .cause-vuln-label { font-size: 12px; font-weight: 600; color: var(--ink-2); margin-right: 8px; }
 .cause-vuln a { font-weight: 700; font-variant-numeric: tabular-nums; }
 .cause-vuln small { display: block; font-size: 12px; color: var(--muted); }
+.target-block { margin: 12px 0 0; padding: 10px 0 0; border-top: 1px dashed var(--grid); }
+.target-items { margin: 4px 0 0; padding-left: 1.3em; line-height: 1.7; }
+.target-product { margin: 6px 0 0; font-size: 13.5px; }
+.target-label { display: inline-block; font-size: 12px; font-weight: 600; color: var(--ink-2); margin-right: 8px; }
+.target-extra { margin: 6px 0 0; padding: 6px 10px; border-radius: 8px; background: var(--surface-2); font-size: 13px; }
+.target-extra small { display: block; font-size: 12px; color: var(--muted); }
 .cause-prevent { margin: 8px 0 0; }
 .cause-prevent summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink-2); width: fit-content; }
 .cause-prevent ul { margin: 6px 0 0; padding-left: 1.3em; line-height: 1.7; }

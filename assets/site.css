@@ -266,11 +266,7 @@ table.data td.num { text-align: right; font-variant-numeric: tabular-nums; white
   width: 10px; height: 10px; border-radius: 50%;
   background: var(--accent); box-shadow: 0 0 0 3px var(--page);
 }
-a.event-card {
-  display: block; color: inherit; text-decoration: none;
-  transition: border-color 0.15s, transform 0.15s;
-}
-a.event-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.event-card { display: block; }
 .event-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
 .event-date { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .chip {
@@ -292,7 +288,29 @@ a.event-card:hover { border-color: var(--accent); transform: translateY(-1px); }
 .stat .basis { font-size: 11px; font-weight: 600; margin-left: 4px; padding: 0 6px; border-radius: 999px; vertical-align: 1px; }
 .basis.official { background: color-mix(in srgb, var(--series-official) 16%, transparent); color: var(--ink); }
 .basis.reported { background: color-mix(in srgb, var(--series-reported) 18%, transparent); color: var(--ink); }
-.more { display: inline-block; margin-top: 12px; font-size: 14px; color: var(--accent); font-weight: 600; }
+.more { display: inline-block; margin-top: 12px; font-size: 14px; color: var(--accent); font-weight: 600; text-decoration: none; }
+.more:hover { text-decoration: underline; }
+
+/* 付録カード：根本原因と防げた可能性のある対策 */
+.cause-panel { margin: 14px 0 0; padding: 12px 0 0; border-top: 1px solid var(--grid); font-size: 14px; }
+.cause-head { display: flex; align-items: center; gap: 8px; }
+.cause-head h4 { margin: 0; font-size: 13px; color: var(--muted); }
+.cause-status { font-size: 11px; font-weight: 600; padding: 0 7px; border-radius: 999px; border: 1px solid var(--border); color: var(--ink-2); }
+.cause-status.official { background: color-mix(in srgb, var(--series-official) 16%, transparent); color: var(--ink); border-color: transparent; }
+.cause-status.undisclosed { border-style: dashed; color: var(--muted); }
+.cause-text { margin: 4px 0 0; line-height: 1.7; }
+.cause-source { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+.cause-vuln { margin: 8px 0 0; padding: 6px 10px; border-radius: 8px; background: var(--surface-2); font-size: 13.5px; }
+.cause-vuln-label { font-size: 12px; font-weight: 600; color: var(--ink-2); margin-right: 8px; }
+.cause-vuln a { font-weight: 700; font-variant-numeric: tabular-nums; }
+.cause-vuln small { display: block; font-size: 12px; color: var(--muted); }
+.cause-prevent { margin: 8px 0 0; }
+.cause-prevent summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ink-2); width: fit-content; }
+.cause-prevent ul { margin: 6px 0 0; padding-left: 1.3em; line-height: 1.7; }
+.cause-note { margin: 4px 0 0; font-size: 13px; color: var(--ink-2); }
+.cause-ref { margin: 10px 0 0; padding: 8px 10px; border: 1px dashed var(--baseline); border-radius: 8px; }
+.cause-ref-label { font-size: 11.5px; font-weight: 700; color: var(--series-reported); }
+.cause-ref p { margin: 2px 0 0; font-size: 13px; color: var(--ink-2); }
 
 /* ===== Links grid ===== */
 .link-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }

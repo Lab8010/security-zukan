@@ -177,6 +177,48 @@
   }
 
   /* ---------- Timeline ---------- */
+  // 根本原因・防げた可能性のある対策・特定された脆弱性（公式発表のみ）。参考情報は公式でないことを明示する
+  var CAUSE_STATUS = { official: "公式発表", partial: "一部のみ公表", undisclosed: "非公表" };
+  function causePanel(inc) {
+    var rc = inc.root_cause;
+    if (!rc) return null;
+    var children = [
+      el("div", { class: "cause-head" }, [
+        el("h4", { text: "根本原因" }),
+        el("span", { class: "cause-status " + rc.status, text: CAUSE_STATUS[rc.status] || rc.status })
+      ]),
+      el("p", { class: "cause-text", text: rc.text }),
+      el("p", { class: "cause-source", text: "出典：" + rc.source })
+    ];
+    (inc.vulns || []).forEach(function (v) {
+      children.push(el("p", { class: "cause-vuln" }, [
+        el("span", { class: "cause-vuln-label", text: "特定された脆弱性" }),
+        el("a", { href: v.url, text: v.id + "（" + v.jvn + "）" }),
+        " " + v.product,
+        el("small", { text: v.source })
+      ]));
+    });
+    var pv = inc.prevention;
+    var pvBody = pv
+      ? [el("ul", {}, pv.items.map(function (t) { return el("li", { text: t }); })),
+         pv.note ? el("p", { class: "cause-note", text: pv.note }) : null,
+         el("p", { class: "cause-source", text: "出典：" + pv.source })]
+      : [el("p", { class: "cause-note", text: rc.status === "undisclosed"
+          ? "原因と再発防止策が公表されていないため、記載していません。"
+          : "再発防止策が公表されていないため、記載していません。" })];
+    children.push(el("details", { class: "cause-prevent" }, [
+      el("summary", { text: "防げた可能性のある対策（公式の再発防止策・指摘より）" })
+    ].concat(pvBody)));
+    if (inc.reference) {
+      children.push(el("div", { class: "cause-ref" }, [
+        el("span", { class: "cause-ref-label", text: "参考（公式発表ではありません）" }),
+        el("p", { text: inc.reference.text }),
+        el("p", { class: "cause-source", text: "出典：" + inc.reference.source })
+      ]));
+    }
+    return el("section", { class: "cause-panel", "aria-label": inc.org + "の原因と対策" }, children);
+  }
+
   function renderTimeline(list) {
     var ol = document.getElementById("timeline-list");
     var lastYear = null;
@@ -191,7 +233,7 @@
             el("span", { class: "basis " + inc.amount_basis, text: BASIS_LABEL[inc.amount_basis] }),
             el("small", { text: inc.amount_note })])
         : el("dd", {}, ["開示なし"]);
-      var card = el("a", { class: "card event-card", href: detailUrl(inc) }, [
+      var card = el("article", { class: "card event-card" }, [
         el("div", { class: "event-top" }, [
           el("time", { class: "event-date", datetime: inc.date, text: formatDate(inc.date) }),
           el("span", { class: "chip", text: inc.type }),
@@ -206,7 +248,8 @@
             el("dd", {}, [inc.records ? formatRecords(inc.records) + "件" : "なし", el("small", { text: inc.records_note })])]),
           el("div", { class: "stat" }, [el("dt", { text: "停止・影響期間" }), el("dd", { text: inc.downtime })])
         ]),
-        el("span", { class: "more", text: "詳細を読む →" })
+        causePanel(inc),
+        el("a", { class: "more", href: detailUrl(inc), text: "詳細を読む →" })
       ]);
       ol.appendChild(el("li", { class: "event" }, [card]));
     });
